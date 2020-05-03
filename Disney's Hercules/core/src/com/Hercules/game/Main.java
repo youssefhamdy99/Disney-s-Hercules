@@ -1,5 +1,6 @@
 package com.Hercules.game;
 
+import Intro.ControlerSetting;
 import Intro.GameInstruction;
 import Intro.StartMenu;
 import Scenes.IntroScenes;
@@ -8,14 +9,13 @@ import Screens.PlayScreen2;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Main extends Game {
 
     public static int x = 0, y = 0;
     public static float vol = 0.5f;
-    public static char up = 'W', down = 'S', left = 'A', right = 'D', sword1 = 'X', sword2 = 'Z', push = 'V', smallpush = 'C';
+    public static int up =19, down =20, left =21, right =22, sword1 = 52, sword2 = 54, normalPunch =31, powerPunch = 50;
     public static final int WIDTH = 2000;
     public static final int HEIGHT = 800;
     public static final float PPM = 800f;
@@ -72,6 +72,7 @@ public class Main extends Game {
         // TOGGLE SCREENS
         //setScreen(new IntroScenes(this));
         setScreen(new StartMenu(this));
+        //setScreen(new ControlerSetting(this));
         //setScreen(new PlayScreen(this));
         //setScreen(new PlayScreen2(this));
     }

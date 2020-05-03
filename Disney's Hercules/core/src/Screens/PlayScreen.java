@@ -26,9 +26,20 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.Hercules.game.Main;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import static java.lang.String.valueOf;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -48,7 +59,7 @@ public class PlayScreen implements Screen {
     private OrthographicCamera gameCam;
     private Viewport gamePort;
     private HUD hud;
-
+    
     //Tiled Map Variables
     private TmxMapLoader mapLoader;
     private TiledMap map;
@@ -100,6 +111,7 @@ public class PlayScreen implements Screen {
         map = mapLoader.load("Maps\\Level One\\HerculesMap.tmx");
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Main.PPM);
         gameCam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
+
 
         FlameAtlas = new TextureAtlas("Sprites\\Main\\Flame.atlas");
         TotalAtlas = new TextureAtlas("Sprites\\Main\\Total.pack");
@@ -210,155 +222,39 @@ public class PlayScreen implements Screen {
     }
     public void  HerculesActionSound (String MusicPath){
          m = Main.manager.get(MusicPath,Music.class);
-                m.setVolume(1f); 
+                m.setVolume(Main.vol); 
                 m.play();
     }
-void keys()
-    {
-        if(Main.up>64 && Main.up<91)
-        {
-            Main.up-=36;
-        }
-        else if(Main.up>96 && Main.up<123)
-        {
-            Main.up -=68;
-        }
-        else if (Main.up>47&&Main.up<58)
-        {
-            Main.up -=41;
-        }
-        if(Main.down>64&&Main.down<91)
-        {           
-            Main.down -=36;
-        }
-        else if(Main.down>96&&Main.down<123)
-        {
-            Main.down -=68;
-        }
-        else if (Main.down>47&&Main.down<58)
-        {
-            Main.down-=41;
-        }
-        if(Main.left>64&&Main.left<91)
-        {
-            Main.left -=36;
-        }
-        else if(Main.left>96&&Main.left<123)
-        {
-            Main.left -=68;
-        }
-        else if (Main.left>47&&Main.left<58)
-        {
-            Main.left -=41;
-        }
-        if(Main.right>64&&Main.right<91)
-        {
-            Main.right-=36;
-        }
-        else if(Main.right>96&&Main.right<123)
-        {
-            Main.right-=68;
-        }
-        else if (Main.right>47&&Main.right<58)
-        {
-            Main.right-=41;
-        }
-        if(Main.sword1>64&&Main.sword1<91)
-        {
-            Main.sword1-=36;
-        }
-        else if(Main.sword1>96&&Main.sword1<123)
-        {
-            Main.sword1-=68;
-        }
-        else if (Main.sword1>47&&Main.sword1<58)
-        {
-            Main.sword1-=41;
-        }
-        if(Main.sword2>64&&Main.sword2<91)
-        {
-            Main.sword2-=36;
-        }
-        else if(Main.sword2>96&&Main.sword2<123)
-        {
-            Main.sword2-=68;
-        }
-        else if (Main.sword2>47&&Main.sword2<58)
-        {
-            Main.sword2-=41;
-        }
-        if(Main.push>64&&Main.push<91)
-        {
-            Main.push-=36;
-        }
-        else if(Main.push>96&&Main.push<123)
-        {
-            Main.push-=68;
-        }
-        else if (Main.push>47&&Main.push<58)
-        {
-            Main.push-=41;
-        }
-        if(Main.smallpush>64&&Main.smallpush<91)
-        {
-            Main.smallpush-=36;
-        }
-        else if(Main.smallpush>96&&Main.smallpush<123)
-        {
-            Main.smallpush-=68;
-        }
-        else if (Main.smallpush>47&&Main.smallpush<58)
-        {
-            Main.smallpush-=41;
-        }
-        
-    }
-    /**
-     * ********* SOME HELPING METHOD **************
+
+    /*
+     * ********* SOME HELPING METHODS **************
      */
     private void handleInput(float dt) {
-   keys();
         //control our player using immediate impulses
-        if (Gdx.input.isKeyJustPressed(Main.up) && player.b2body.getPosition().y <= player.HerculesMaxSpeedHigh) {
-            player.b2body.applyLinearImpulse(new Vector2(0, 2.5f), player.b2body.getWorldCenter(), true);
-                    HerculesActionSound("Audio//Hercules - Voices//Hercules//Jumb2.wav");
- 
-        } else if (Gdx.input.isKeyJustPressed(Main.down)) {
-            player.b2body.applyLinearImpulse(new Vector2(0, -2.5f), player.b2body.getWorldCenter(), true);
-        } else if (Gdx.input.isKeyPressed(Main.right) && player.b2body.getLinearVelocity().x <= player.HerculesMaxSpeed) {
-            player.b2body.applyForceToCenter(new Vector2(3, 0), true);
-        } else if (Gdx.input.isKeyPressed(Main.left) && player.b2body.getLinearVelocity().x >= -1 * player.HerculesMaxSpeed) {
-            player.b2body.applyForceToCenter(new Vector2(-3, 0), true);
-        }
+             if (Gdx.input.isKeyJustPressed(game.up) && player.b2body.getLinearVelocity().y <= player.HerculesMaxSpeedHigh )
+                  player.b2body.applyLinearImpulse(new Vector2(0 ,2.5f), player.b2body.getWorldCenter(), true);
+             else if (Gdx.input.isKeyJustPressed(game.down))
+                   player.b2body.applyLinearImpulse(new Vector2(0 ,-2.5f), player.b2body.getWorldCenter(), true);
 
-        if (Gdx.input.isKeyJustPressed(Main.push)) {
-            player.hercules_push = true;
-            c = true;
-            handleTallPillarCrash();
-            HerculesActionSound("Audio//Hercules - sounds//a2.wav");
+             else if (Gdx.input.isKeyPressed(game.right) && player.b2body.getLinearVelocity().x <= player.HerculesMaxSpeed){
+                  player.b2body.applyForceToCenter(new Vector2(3, 0), true);
+             }
+                 
+             else if (Gdx.input.isKeyPressed(game.left) && player.b2body.getLinearVelocity().x >= -1 * player.HerculesMaxSpeed)
+                  player.b2body.applyForceToCenter(new Vector2(-3, 0), true);
+             
+             if (Gdx.input.isKeyJustPressed(game.powerPunch)){player.hercules_push = true; c = true;handleTallPillarCrash();}
+             else if (Gdx.input.isKeyJustPressed(game.normalPunch)) {v = true; player.hercules_Smallpush = true; handleTallPillarCrash();}
 
-        } else if (Gdx.input.isKeyJustPressed(Main.smallpush)) {
-            v = true;
-            player.hercules_Smallpush = true;
-            handleTallPillarCrash();
-                HerculesActionSound("Audio//Hercules - sounds//Punch.wav");
-        } else if (Gdx.input.isKeyPressed(Main.sword2)) {
-            handleSword();
-        } else if (Gdx.input.isKeyJustPressed(Main.sword1)) {
-            v = true;
-            player.hercules_sword2 = true;
-            handleTallPillarCrash();
-                        HerculesActionSound("Audio//Hercules - sounds//sword.wav");
-
-            
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            System.exit(0);
-        }
-
-        handleJuice();
-        v = c = false;
+             else if (Gdx.input.isKeyPressed(game.sword2)) 
+                     handleSword();
+             else if (Gdx.input.isKeyJustPressed(game.sword1)) {v=true;player.hercules_sword2 = true;handleTallPillarCrash();}
+             
+             if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
+                      System.exit(0) ;
+             
+            handleJuice();
+            v = c = false;
     }
 
     public void define_featherSack() {
@@ -625,7 +521,7 @@ void keys()
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
-
+        
         if (gameOver()) {
             Game.stop();
             game.setScreen(new GameOver(game));
@@ -768,5 +664,6 @@ void keys()
         debuger.dispose();
         hud.dispose();
     }
-
+    
+    
 }

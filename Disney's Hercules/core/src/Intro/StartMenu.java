@@ -78,7 +78,7 @@ public class StartMenu implements Screen {
 
     private void createActions() {
         TextButton startGame = new TextButton("Start Game", skin);
-        startGame.setPosition(Gdx.graphics.getWidth() / 2 +200+Main.x, Gdx.graphics.getHeight() / 2 +200+Main.y);
+        startGame.setPosition(Gdx.graphics.getWidth() / 2 +150+Main.x, Gdx.graphics.getHeight() / 2 +180+Main.y);
         startGame.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -144,7 +144,7 @@ public class StartMenu implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Main.batch.begin();
-        Main.batch.draw(background, 0, 0, Main.WIDTH, Main.HEIGHT);
+            game.batch.draw(background, 0, 0, Main.WIDTH, Main.HEIGHT);
         Main.batch.end();
         stage.act();
         stage.draw();

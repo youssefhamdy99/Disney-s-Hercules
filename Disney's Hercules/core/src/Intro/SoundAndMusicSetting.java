@@ -33,8 +33,9 @@ public class SoundAndMusicSetting implements Screen {
     private BitmapFont FONT;
     private Label.LabelStyle font;
     public CheckBox cb;
+
     public SoundAndMusicSetting(Main game) {
-        cb=new CheckBox("Mute",new Skin(Gdx.files.internal("Fonts\\uiskin.json")));
+        cb = new CheckBox("Mute", new Skin(Gdx.files.internal("Fonts\\uiskin.json")));
         this.game = game;
         background = new Texture(Gdx.files.internal("Intros\\0.jpg"));
         viewport = new StretchViewport(Main.WIDTH, Main.HEIGHT, new OrthographicCamera());
@@ -42,13 +43,10 @@ public class SoundAndMusicSetting implements Screen {
         Gdx.input.setInputProcessor(stage);   // MAKE THE STAGE ACCEPTS EVENTS
         FONT = new BitmapFont(Gdx.files.internal("Fonts\\HUD.fnt"));
         font = new Label.LabelStyle(FONT, null);
-        if(Main.vol==0)
-        {
+        if (Main.vol == 0) {
             cb.setChecked(true);
-        }
-        else
-        {     
-             cb.setChecked(false);
+        } else {
+            cb.setChecked(false);
         }
         createBasicSkin();
         Buttons();
@@ -77,7 +75,7 @@ public class SoundAndMusicSetting implements Screen {
 
     void Buttons() {
         Label MusicAndSound = new Label("Music And Sound Volume", font);
-        MusicAndSound.setPosition(Gdx.graphics.getWidth() / 2 + Main.x, Gdx.graphics.getHeight() / 2 + 100 + Main.y);
+        MusicAndSound.setPosition(Gdx.graphics.getWidth() / 2 +150+ Main.x, Gdx.graphics.getHeight() / 2 + 180 + Main.y);
         stage.addActor(MusicAndSound);
 
         final TextButton volumeup = new TextButton("volume up", skin);
@@ -87,62 +85,68 @@ public class SoundAndMusicSetting implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (Main.vol < 1) {
-                   Main.vol +=0.1f;
+                    Main.vol += 0.1f;
                     volumedown.setText("volume down");
                     volumedown.setTouchable(Touchable.enabled);
                 } else {
                     volumeup.setText("Maximum volume");
                     volumeup.setTouchable(Touchable.disabled);
                 }
-                
+
             }
         });
         stage.addActor(volumeup);
-        
+
         volumedown.setPosition(MusicAndSound.getX() + 400, MusicAndSound.getY() - 100);
         volumedown.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (Main.vol>0.2f) {
-                    Main.vol -=0.1f;
+                if (Main.vol > 0.2f) {
+                    Main.vol -= 0.1f;
                     volumeup.setText("volume up");
                     volumeup.setTouchable(Touchable.enabled);
                 } else {
                     volumedown.setText("Minimum volume");
                     volumedown.setTouchable(Touchable.disabled);
                 }
-                   
+
             }
         });
-        stage.addActor(volumedown);      
-        
-        cb.setPosition(volumeup.getX(), volumeup.getY() -100);
+        stage.addActor(volumedown);
+
+        cb.setPosition(volumeup.getX(), volumeup.getY() - 100);
         cb.setSize(300, 50);
-        cb.addListener(new ClickListener(){
+        cb.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {    
-               if(cb.isChecked())
-                {
-                   Main.vol=0;
-                }
-               else
-                {
-                    Main.vol=1;
+            public void clicked(InputEvent event, float x, float y) {
+                if (cb.isChecked()) {
+                    Main.vol = 0;
+                } else {
+                    Main.vol = 1;
                 }
             }
         });
-         
-         stage.addActor(cb);
-         TextButton save = new TextButton("Save", skin);
-         save.setPosition(cb.getX(), cb.getY() - 100);
-         save.addListener(new ClickListener() {
+
+        stage.addActor(cb);
+        TextButton save = new TextButton("Save", skin);
+        save.setPosition(cb.getX(), cb.getY() - 100);
+        save.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {    
+            public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new StartMenu(game));
             }
         });
         stage.addActor(save);
+        TextButton back = new TextButton("Back", skin);
+        back.setPosition(save.getX(), save.getY() - 100);
 
+        back.addListener(new ClickListener() {  // RESET DEFAULT
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new Setting(game));
+            }
+        });
+        stage.addActor(back);
     }
 
     @Override

@@ -2,6 +2,7 @@ package Intro;
 
 import com.Hercules.game.Main;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
@@ -25,7 +26,6 @@ public class ScreenSetting implements Screen {
     public Stage stage;
     private Skin skin1, skin2;
     private Viewport viewport;
- 
     public ScreenSetting(Main game) {
         this.game = game;
         background = new Texture(Gdx.files.internal("Intros\\0.jpg"));
@@ -62,8 +62,8 @@ public class ScreenSetting implements Screen {
 
         final SelectBox<String> selectBox = new SelectBox<String>(skin1);
         selectBox.setSize(200, 80);
-        selectBox.setPosition(Gdx.graphics.getWidth() / 2 +200+Main.x, Gdx.graphics.getHeight() / 2 +200+Main.y );
-        selectBox.setItems("1280x768", "1024x600", "800x340","Default");
+        selectBox.setPosition(Gdx.graphics.getWidth() / 2 +150+Main.x, Gdx.graphics.getHeight() / 2 +180+Main.y );
+        selectBox.setItems("1280x768", "1024x600", "800x340","Default","Full Screen");
         stage.addActor(selectBox);
         TextButton save = new TextButton("Save", skin2);
         save.setPosition(selectBox.getX() , selectBox.getY()-100);
@@ -74,7 +74,7 @@ public class ScreenSetting implements Screen {
                     Main.x=50;Main.y=50; 
                       Gdx.graphics.setWindowedMode(1280, 768);
                       
-                } 
+                }
                  else if (selectBox.getSelectedIndex() == 1) {
                      Main.x=100;Main.y=100; 
                Gdx.graphics.setWindowedMode(1024, 600);
@@ -85,16 +85,35 @@ public class ScreenSetting implements Screen {
                 }
                  else if (selectBox.getSelectedIndex() == 3) {
                        Main.x=0;Main.y=0; 
-                     Gdx.graphics.setWindowedMode(1366, 768);
-                      
+                       Gdx.graphics.setWindowedMode(1366, 768);                                         
                 }
-                game.setScreen(new StartMenu(game));       
+                 else if(selectBox.getSelectedIndex() == 4)
+                         {
+                              Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+                         }
+                game.setScreen(new StartMenu(game));
+                getThisClass().dispose();
             }
         });
         stage.addActor(save);
-
+TextButton back = new TextButton("Back", skin2);
+        back.setPosition(save.getX(),save.getY()-100);
+        
+        back.addListener(new ClickListener() {  // RESET DEFAULT
+            @Override
+            public void clicked(InputEvent event, float x, float y) { 
+                game.setScreen(new Setting(game));
+                getThisClass().dispose();
+            }
+        });
+        stage.addActor(back);
     }
-
+    
+    
+    private ScreenSetting getThisClass(){
+        return this;
+    }
+    
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -129,6 +148,8 @@ public class ScreenSetting implements Screen {
 
     @Override
     public void dispose() {
+        stage.dispose();
+        background.dispose();
     }
 
 }

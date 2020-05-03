@@ -62,7 +62,7 @@ public class Setting  implements Screen{
     {
         
         TextButton controlerkeys  = new TextButton("controler keys",skin);
-        controlerkeys.setPosition(Gdx.graphics.getWidth() / 2 +200+Main.x, Gdx.graphics.getHeight() / 2 +200+Main.y);
+        controlerkeys.setPosition(Gdx.graphics.getWidth() / 2 +150+Main.x, Gdx.graphics.getHeight() / 2 +180+Main.y);
         controlerkeys.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y){
@@ -89,7 +89,16 @@ public class Setting  implements Screen{
             }
         });
         stage.addActor(screendisplay);
+        TextButton back = new TextButton("Back", skin);
+        back.setPosition(screendisplay.getX(),screendisplay.getY()-100);
         
+        back.addListener(new ClickListener() {  // RESET DEFAULT
+            @Override
+            public void clicked(InputEvent event, float x, float y) { 
+                game.setScreen(new StartMenu(game));
+            }
+        });
+        stage.addActor(back);
         
     }
     @Override
@@ -105,6 +114,7 @@ public class Setting  implements Screen{
        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
            game.setScreen(new StartMenu(game));
        }
+       
     }
 
     @Override
